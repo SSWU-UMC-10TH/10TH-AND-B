@@ -1,1 +1,0 @@
-com.example.umcweek1.test
