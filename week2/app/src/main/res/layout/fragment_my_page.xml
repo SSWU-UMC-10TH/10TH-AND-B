@@ -1,16 +1,266 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MyPageFragment"
-    android:background="@android:color/white"
-    >
+    android:background="#FFFFFF"
+    tools:context=".MyPageFragment">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="프로필 정보"
-        android:textSize="20sp"/>
+        android:orientation="vertical">
 
-</FrameLayout>
+        <!-- 상단 프로필 영역 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center_horizontal"
+            android:paddingTop="36dp"
+            android:paddingBottom="24dp">
+
+            <ImageView
+                android:id="@+id/imgProfile"
+                android:layout_width="96dp"
+                android:layout_height="96dp"
+                android:background="#DDDDDD"
+                android:scaleType="centerCrop"
+                android:src="@android:color/transparent" />
+
+            <TextView
+                android:id="@+id/tvProfileName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="닉네임"
+                android:textColor="#111111"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/btnEditProfile"
+                android:layout_width="148dp"
+                android:layout_height="48dp"
+                android:layout_marginTop="18dp"
+                android:backgroundTint="#FFFFFF"
+                android:text="프로필 수정"
+                android:textColor="#111111" />
+        </LinearLayout>
+
+        <!-- 메뉴 4개 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:orientation="horizontal"
+            android:paddingHorizontal="12dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@android:drawable/ic_menu_agenda" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="주문"
+                    android:textSize="12sp"
+                    android:textColor="#111111" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_vertical"
+                android:background="#DDDDDD" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@android:drawable/ic_menu_myplaces" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="패스"
+                    android:textSize="12sp"
+                    android:textColor="#111111" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_vertical"
+                android:background="#DDDDDD" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@android:drawable/ic_menu_my_calendar" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="이벤트"
+                    android:textSize="12sp"
+                    android:textColor="#111111" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="36dp"
+                android:layout_gravity="center_vertical"
+                android:background="#DDDDDD" />
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:src="@android:drawable/ic_menu_manage" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="설정"
+                    android:textSize="12sp"
+                    android:textColor="#111111" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="#F3F3F3" />
+
+        <!-- 멤버 혜택 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="18dp">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="나이키 멤버 혜택"
+                    android:textColor="#111111"
+                    android:textSize="18sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tvBenefitSub"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:text="0개 사용 가능"
+                    android:textColor="#888888"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=">"
+                android:textColor="#111111"
+                android:textSize="20sp" />
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="8dp"
+            android:background="#F3F3F3" />
+
+        <!-- 팔로잉 헤더 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:paddingTop="22dp"
+            android:paddingBottom="14dp"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/tvFollowingTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="팔로잉 (3)"
+                android:textColor="#111111"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/tvEditFollowing"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="편집"
+                android:textColor="#999999"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <!-- 팔로잉 리스트 -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvFollowing"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:paddingStart="18dp"
+            android:paddingEnd="18dp"
+            android:clipToPadding="false" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:gravity="center_horizontal|bottom"
+            android:paddingBottom="18dp">
+
+            <TextView
+                android:id="@+id/tvJoinDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="회원 가입일: 2025년 9월"
+                android:textColor="#AAAAAA"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>
