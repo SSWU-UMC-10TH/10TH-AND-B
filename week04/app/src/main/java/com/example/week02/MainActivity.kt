@@ -31,39 +31,39 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frm, HomeFragment())
-                        .commit()
-                    true
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
                 }
                 // 2. '구매하기' 버튼을 눌렀을 때
                 R.id.nav_buy -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frm, BuyFragment())
-                        .commit()
-                    true
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
                 }
 
                 // 3. '위시리스트' 버튼을 눌렀을 때
                 R.id.nav_wishlist -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frm, WishlistFragment())
-                        .commit()
-                    true
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
                 }
 
                 // 4. '장바구니' 버튼을 눌렀을 때
                 R.id.nav_busket -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frm, BusketFragment())
-                        .commit()
-                    true
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
                 }
 
                 // 5. '프로필' 버튼을 눌렀을 때
                 R.id.nav_profile -> {
                     supportFragmentManager.beginTransaction()
                         .replace(R.id.main_frm, ProfileFragment())
-                        .commit()
-                    true
+                        .commitAllowingStateLoss()
+                    return@setOnItemSelectedListener true
                 }
             }
             false
