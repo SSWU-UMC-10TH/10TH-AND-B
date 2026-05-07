@@ -5,9 +5,15 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_week2.databinding.ItemHomeProductBinding
 
-class HomeProductAdapter(
-    private val productList: List<ProductData>
-) : RecyclerView.Adapter<HomeProductAdapter.ViewHolder>() {
+class HomeProductAdapter : RecyclerView.Adapter<HomeProductAdapter.ViewHolder>() {
+
+    private val productList = mutableListOf<ProductData>()
+
+    fun submitList(list: List<ProductData>) {
+        productList.clear()
+        productList.addAll(list)
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(private val binding: ItemHomeProductBinding) :
         RecyclerView.ViewHolder(binding.root) {

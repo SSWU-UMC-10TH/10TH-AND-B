@@ -6,21 +6,30 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.umc_week2.databinding.FragmentMyPageBinding
+import com.example.umc_week2.ui.mypage.MyPageViewModel
+import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
+@AndroidEntryPoint
 class MyPageFragment : Fragment() {
 
     private var _binding: FragmentMyPageBinding? = null
     private val binding get() = _binding!!
 
+    private val viewModel: MyPageViewModel by viewModels()
+
     private lateinit var followingAdapter: FollowingAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentMyPageBinding.inflate(inflater, container, false)
@@ -31,7 +40,9 @@ class MyPageFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRecyclerView()
-        loadMyPageData()
+        observeUiState()
+
+        viewModel.loadMyPage()
     }
 
     private fun setupRecyclerView() {
@@ -39,34 +50,39 @@ class MyPageFragment : Fragment() {
 
         binding.rvFollowing.apply {
             adapter = followingAdapter
-            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            layoutManager = LinearLayoutManager(
+                requireContext(),
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
         }
     }
 
-    private fun loadMyPageData() {
+    private fun observeUiState() {
         viewLifecycleOwner.lifecycleScope.launch {
-            try {
-                val userResponse = ApiClient.reqresService.getUser(1)
-                val user = userResponse.data
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
 
-                binding.tvProfileName.text = "${user.firstName}${user.lastName}"
+                    binding.tvProfileName.text = state.userName
 
-                Glide.with(this@MyPageFragment)
-                    .load(user.avatar)
-                    .circleCrop()
-                    .into(binding.imgProfile)
+                    Glide.with(this@MyPageFragment)
+                        .load(state.profileImageUrl)
+                        .circleCrop()
+                        .into(binding.imgProfile)
 
-                val listResponse = ApiClient.reqresService.getUsers(1)
-                followingAdapter.submitList(listResponse.data.take(3))
+                    val followingList = state.followingList.take(3)
+                    followingAdapter.submitList(followingList)
 
-                binding.tvFollowingTitle.text = "팔로잉 (${listResponse.data.take(3).size})"
+                    binding.tvFollowingTitle.text = "팔로잉 (${followingList.size})"
 
-            } catch (e: Exception) {
-                Toast.makeText(
-                    requireContext(),
-                    "데이터를 불러오지 못했습니다: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
+                    state.errorMessage?.let { message ->
+                        Toast.makeText(
+                            requireContext(),
+                            message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
             }
         }
     }

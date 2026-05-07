@@ -7,9 +7,21 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.umc_week2.databinding.ItemProductBinding
 
 class ProductAdapter(
-    private val productList: List<ProductData>,
+    initialList: List<ProductData> = emptyList(),
     private val onHeartClick: ((Int) -> Unit)? = null
 ) : RecyclerView.Adapter<ProductAdapter.ViewHolder>() {
+
+    private val productList = mutableListOf<ProductData>()
+
+    init {
+        productList.addAll(initialList)
+    }
+
+    fun submitList(list: List<ProductData>) {
+        productList.clear()
+        productList.addAll(list)
+        notifyDataSetChanged()
+    }
 
     inner class ViewHolder(private val binding: ItemProductBinding) :
         RecyclerView.ViewHolder(binding.root) {
@@ -33,14 +45,12 @@ class ProductAdapter(
                 binding.tvSubInfo.text = product.subInfo
             }
 
-            if (product.isBestSeller) {
-                binding.tvBestSeller.visibility = View.VISIBLE
-            } else {
-                binding.tvBestSeller.visibility = View.GONE
-            }
+            binding.tvBestSeller.visibility =
+                if (product.isBestSeller) View.VISIBLE else View.GONE
 
             if (product.showWishIcon) {
                 binding.ivWish.visibility = View.VISIBLE
+
                 if (product.isLiked) {
                     binding.ivWish.setImageResource(R.drawable.ic_heart_filled)
                 } else {

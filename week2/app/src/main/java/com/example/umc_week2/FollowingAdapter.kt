@@ -4,13 +4,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.umc_week2.data.model.UserData
 import com.example.umc_week2.databinding.ItemFollowingUserBinding
 
 class FollowingAdapter : RecyclerView.Adapter<FollowingAdapter.FollowingViewHolder>() {
 
-    private val userList = mutableListOf<ReqresUser>()
+    private val userList = mutableListOf<UserData>()
 
-    fun submitList(list: List<ReqresUser>) {
+    fun submitList(list: List<UserData>) {
         userList.clear()
         userList.addAll(list)
         notifyDataSetChanged()
@@ -20,7 +21,7 @@ class FollowingAdapter : RecyclerView.Adapter<FollowingAdapter.FollowingViewHold
         private val binding: ItemFollowingUserBinding
     ) : RecyclerView.ViewHolder(binding.root) {
 
-        fun bind(user: ReqresUser) {
+        fun bind(user: UserData) {
             Glide.with(binding.root.context)
                 .load(user.avatar)
                 .centerCrop()

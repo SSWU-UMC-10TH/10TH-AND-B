@@ -3,19 +3,19 @@ package com.example.umc_week2
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        // 처음 실행 시 홈 Fragment
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_fragmentContainer, HomeFragment())
             .commit()
 
-        // BottomNavigation 연결
         val bottomNav = findViewById<BottomNavigationView>(R.id.main_bnv)
 
         bottomNav.setOnItemSelectedListener { item ->

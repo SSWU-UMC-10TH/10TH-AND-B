@@ -11,4 +11,5 @@
         android:text="Sale Fragment"
         android:textSize="18sp"
         android:textStyle="bold" />
+
 </FrameLayout>
