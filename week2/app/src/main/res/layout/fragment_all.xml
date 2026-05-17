@@ -4,12 +4,9 @@
     android:layout_height="match_parent"
     android:background="@android:color/white">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvBuyProducts"
+    <androidx.compose.ui.platform.ComposeView
+        android:id="@+id/composeBuyProducts"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingStart="8dp"
-        android:paddingEnd="8dp"
-        android:clipToPadding="false" />
+        android:layout_height="match_parent" />
 
 </FrameLayout>
