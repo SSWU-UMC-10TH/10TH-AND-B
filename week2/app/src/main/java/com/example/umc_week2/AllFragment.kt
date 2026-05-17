@@ -5,17 +5,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.umc_week2.databinding.FragmentAllBinding
 import com.example.umc_week2.ui.buy.BuyViewModel
-import com.example.umc_week2.ui.buy.ProductListScreen
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class AllFragment : Fragment() {
@@ -24,6 +23,8 @@ class AllFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val viewModel: BuyViewModel by viewModels()
+
+    private lateinit var productAdapter: ProductAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -37,38 +38,38 @@ class AllFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.composeBuyProducts.setViewCompositionStrategy(
-            ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed
+        setupRecyclerView()
+        observeUiState()
+    }
+
+    private fun setupRecyclerView() {
+        productAdapter = ProductAdapter(
+            onHeartClick = { position ->
+                viewModel.toggleLike(position)
+            }
         )
 
-        binding.composeBuyProducts.setContent {
-            val state by viewModel.uiState.collectAsState()
-            val context = LocalContext.current
+        binding.rvBuyProducts.apply {
+            adapter = productAdapter
+            layoutManager = GridLayoutManager(requireContext(), 2)
+        }
+    }
 
-            LaunchedEffect(state.errorMessage) {
-                state.errorMessage?.let { message ->
-                    Toast.makeText(
-                        context,
-                        message,
-                        Toast.LENGTH_SHORT
-                    ).show()
+    private fun observeUiState() {
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
+                viewModel.uiState.collect { state ->
+                    productAdapter.submitList(state.productList)
+
+                    state.errorMessage?.let { message ->
+                        Toast.makeText(
+                            requireContext(),
+                            message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
                 }
             }
-
-            ProductListScreen(
-                products = state.productList,
-                onWishClick = { clickedProduct ->
-                    val position = state.productList.indexOfFirst { product ->
-                        product.imageResId == clickedProduct.imageResId &&
-                                product.name == clickedProduct.name &&
-                                product.price == clickedProduct.price
-                    }
-
-                    if (position != -1) {
-                        viewModel.toggleLike(position)
-                    }
-                }
-            )
         }
     }
 
