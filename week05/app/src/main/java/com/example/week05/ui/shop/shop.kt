@@ -1,10 +1,13 @@
-package com.example.week05
+package com.example.week05.ui.shop
 
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.week05.R
+import com.example.week05.data.model.ProductAdapter
+import com.example.week05.data.remote.DataStoreManager
 import com.example.week05.databinding.FragmentShopBinding
 import kotlinx.coroutines.launch
 

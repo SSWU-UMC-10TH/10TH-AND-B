@@ -7,31 +7,31 @@
 
     <fragment
         android:id="@+id/menu_home"
-        android:name="com.example.week05.HomeFragment"
+        android:name="com.example.week05.ui.home.HomeFragment"
         android:label="홈"
         tools:layout="@layout/fragment_home" />
 
     <fragment
         android:id="@+id/menu_shop"
-        android:name="com.example.week05.ShopFragment"
+        android:name="com.example.week05.ui.shop.ShopFragment"
         android:label="구매하기"
         tools:layout="@layout/fragment_shop" />
 
     <fragment
         android:id="@+id/menu_wishlist"
-        android:name="com.example.week05.WishlistFragment"
+        android:name="com.example.week05.ui.wishlist.WishlistFragment"
         android:label="위시리스트"
         tools:layout="@layout/fragment_wishlist" />
 
     <fragment
         android:id="@+id/menu_cart"
-        android:name="com.example.week05.CartFragment"
+        android:name="com.example.week05.ui.cart.CartFragment"
         android:label="장바구니"
         tools:layout="@layout/fragment_cart" />
 
     <fragment
         android:id="@+id/menu_profile"
-        android:name="com.example.week05.ProfileFragment"
+        android:name="com.example.week05.ui.profile.ProfileFragment"
         android:label="프로필"
         tools:layout="@layout/fragment_profile" />
 

@@ -1,9 +1,11 @@
-package com.example.week05
+package com.example.week05.ui.profile
 
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.week05.R
+import com.example.week05.data.model.Follow
 
 class FollowAdapter(
     private val followList: List<Follow>

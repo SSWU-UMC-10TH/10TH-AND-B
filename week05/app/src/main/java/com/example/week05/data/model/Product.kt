@@ -1,4 +1,4 @@
-package com.example.week05
+package com.example.week05.data.model
 
 data class Product(
     val name: String,

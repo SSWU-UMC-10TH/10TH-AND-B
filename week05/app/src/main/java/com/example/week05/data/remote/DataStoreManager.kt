@@ -1,10 +1,10 @@
-package com.example.week05
+package com.example.week05.data.remote
 
 import android.content.Context
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
-import com.example.week05.Product
+import com.example.week05.data.model.Product
 import com.google.gson.Gson
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
