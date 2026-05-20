@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="96dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="10dp"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/imgFollowingProfile"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:background="#DDDDDD"
+        android:scaleType="centerCrop"
+        android:src="@android:color/transparent" />
+
+</LinearLayout>
