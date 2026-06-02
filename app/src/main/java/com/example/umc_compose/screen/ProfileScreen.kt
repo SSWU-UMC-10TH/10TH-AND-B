@@ -31,6 +31,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -42,6 +43,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import com.example.umc_compose.data.ReqresUserDto
 import com.example.umc_compose.data.RetrofitClient
+import kotlinx.coroutines.launch
 
 @Composable
 fun ProfileScreen() {
@@ -50,20 +52,29 @@ fun ProfileScreen() {
     var isLoading by remember { mutableStateOf(true) }
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
-    LaunchedEffect(Unit) {
-        try {
+    val coroutineScope = rememberCoroutineScope()
+
+    fun fetchData() {
+        coroutineScope.launch {
             isLoading = true
+            errorMessage = null
 
-            val userResponse = RetrofitClient.api.getUser(1)
-            val followingResponse = RetrofitClient.api.getUsers(page = 1, perPage = 6)
+            try {
+                val userResponse = RetrofitClient.api.getUser(1)
+                val usersResponse = RetrofitClient.api.getUsers()
 
-            user = userResponse.data
-            followingList = followingResponse.data
-        } catch (e: Exception) {
-            errorMessage = e.message ?: "데이터를 불러오지 못했습니다."
-        } finally {
-            isLoading = false
+                user = userResponse.data
+                followingList = usersResponse.data
+            } catch (e: Exception) {
+                errorMessage = "오류 발생: ${e.message}"
+            } finally {
+                isLoading = false
+            }
         }
+    }
+
+    LaunchedEffect(Unit) {
+        fetchData()
     }
 
     Box(
@@ -80,11 +91,22 @@ fun ProfileScreen() {
             }
 
             errorMessage != null -> {
-                Text(
-                    text = "오류 발생: $errorMessage",
-                    color = Color.Red,
-                    modifier = Modifier.align(Alignment.Center)
-                )
+                Column(
+                    modifier = Modifier.align(Alignment.Center),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Text(
+                        text = errorMessage ?: "오류가 발생했습니다.",
+                        color = Color.Red,
+                        modifier = Modifier.padding(bottom = 16.dp)
+                    )
+
+                    OutlinedButton(
+                        onClick = { fetchData() }
+                    ) {
+                        Text(text = "다시 시도")
+                    }
+                }
             }
 
             else -> {
@@ -93,7 +115,9 @@ fun ProfileScreen() {
                         .fillMaxSize()
                         .verticalScroll(rememberScrollState())
                 ) {
-                    ProfileTopSection(user = user)
+                    user?.let {
+                        ProfileTopSection(user = it)
+                    }
 
                     Spacer(modifier = Modifier.height(24.dp))
 
@@ -124,46 +148,29 @@ fun ProfileScreen() {
 }
 
 @Composable
-fun ProfileTopSection(user: ReqresUserDto?) {
+fun ProfileTopSection(user: ReqresUserDto) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .padding(top = 28.dp),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        if (user != null) {
-            AsyncImage(
-                model = user.avatar,
-                contentDescription = "${user.fullName} 프로필 이미지",
-                contentScale = ContentScale.Crop,
-                modifier = Modifier
-                    .size(78.dp)
-                    .clip(CircleShape)
-            )
+        AsyncImage(
+            model = user.avatar,
+            contentDescription = "${user.fullName} 프로필 이미지",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+                .size(78.dp)
+                .clip(CircleShape)
+        )
 
-            Spacer(modifier = Modifier.height(18.dp))
+        Spacer(modifier = Modifier.height(18.dp))
 
-            Text(
-                text = user.fullName,
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-        } else {
-            Box(
-                modifier = Modifier
-                    .size(78.dp)
-                    .clip(CircleShape)
-                    .background(Color(0xFFD9D9D9))
-            )
-
-            Spacer(modifier = Modifier.height(18.dp))
-
-            Text(
-                text = "닉네임",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold
-            )
-        }
+        Text(
+            text = user.fullName,
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold
+        )
 
         Spacer(modifier = Modifier.height(18.dp))
 
